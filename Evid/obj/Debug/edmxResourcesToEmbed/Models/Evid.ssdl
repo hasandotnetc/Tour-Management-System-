@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EvidModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BookingEnty">
+    <Key>
+      <PropertyRef Name="BookingEntryId" />
+    </Key>
+    <Property Name="BookingEntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SpotId" Type="int" />
+    <Property Name="ClientId" Type="int" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="ClientId" />
+    </Key>
+    <Property Name="ClientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ClientName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Age" Type="int" />
+    <Property Name="BirthDate" Type="date" />
+    <Property Name="Picture" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MaritalStatus" Type="bit" />
+  </EntityType>
+  <EntityType Name="Spot">
+    <Key>
+      <PropertyRef Name="SpotId" />
+    </Key>
+    <Property Name="SpotId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SpotName" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__BookingEn__Clien__3C69FB99">
+    <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+    <End Role="BookingEnty" Type="Self.BookingEnty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="ClientId" />
+      </Principal>
+      <Dependent Role="BookingEnty">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BookingEn__SpotI__3B75D760">
+    <End Role="Spot" Type="Self.Spot" Multiplicity="0..1" />
+    <End Role="BookingEnty" Type="Self.BookingEnty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Spot">
+        <PropertyRef Name="SpotId" />
+      </Principal>
+      <Dependent Role="BookingEnty">
+        <PropertyRef Name="SpotId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EvidModelStoreContainer">
+    <EntitySet Name="BookingEnty" EntityType="Self.BookingEnty" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Spot" EntityType="Self.Spot" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__BookingEn__Clien__3C69FB99" Association="Self.FK__BookingEn__Clien__3C69FB99">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="BookingEnty" EntitySet="BookingEnty" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BookingEn__SpotI__3B75D760" Association="Self.FK__BookingEn__SpotI__3B75D760">
+      <End Role="Spot" EntitySet="Spot" />
+      <End Role="BookingEnty" EntitySet="BookingEnty" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

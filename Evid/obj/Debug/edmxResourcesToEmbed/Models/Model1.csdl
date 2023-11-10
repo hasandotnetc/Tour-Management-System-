@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EvModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="BookingEnty">
+    <Key>
+      <PropertyRef Name="BookingEntryId" />
+    </Key>
+    <Property Name="BookingEntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SpotId" Type="Int32" />
+    <Property Name="ClientId" Type="Int32" />
+    <NavigationProperty Name="Client" Relationship="Self.FK__BookingEn__Clien__3C69FB99" FromRole="BookingEnty" ToRole="Client" />
+    <NavigationProperty Name="Spot" Relationship="Self.FK__BookingEn__SpotI__3B75D760" FromRole="BookingEnty" ToRole="Spot" />
+  </EntityType>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="ClientId" />
+    </Key>
+    <Property Name="ClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ClientName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Age" Type="Int32" />
+    <Property Name="BirthDate" Type="DateTime" Precision="0" />
+    <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MaritalStatus" Type="Boolean" />
+    <NavigationProperty Name="BookingEnties" Relationship="Self.FK__BookingEn__Clien__3C69FB99" FromRole="Client" ToRole="BookingEnty" />
+  </EntityType>
+  <EntityType Name="Spot">
+    <Key>
+      <PropertyRef Name="SpotId" />
+    </Key>
+    <Property Name="SpotId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SpotName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="BookingEnties" Relationship="Self.FK__BookingEn__SpotI__3B75D760" FromRole="Spot" ToRole="BookingEnty" />
+  </EntityType>
+  <Association Name="FK__BookingEn__Clien__3C69FB99">
+    <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+    <End Role="BookingEnty" Type="Self.BookingEnty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="ClientId" />
+      </Principal>
+      <Dependent Role="BookingEnty">
+        <PropertyRef Name="ClientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BookingEn__SpotI__3B75D760">
+    <End Role="Spot" Type="Self.Spot" Multiplicity="0..1" />
+    <End Role="BookingEnty" Type="Self.BookingEnty" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Spot">
+        <PropertyRef Name="SpotId" />
+      </Principal>
+      <Dependent Role="BookingEnty">
+        <PropertyRef Name="SpotId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EvEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="BookingEnties" EntityType="Self.BookingEnty" />
+    <EntitySet Name="Clients" EntityType="Self.Client" />
+    <EntitySet Name="Spots" EntityType="Self.Spot" />
+    <AssociationSet Name="FK__BookingEn__Clien__3C69FB99" Association="Self.FK__BookingEn__Clien__3C69FB99">
+      <End Role="Client" EntitySet="Clients" />
+      <End Role="BookingEnty" EntitySet="BookingEnties" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BookingEn__SpotI__3B75D760" Association="Self.FK__BookingEn__SpotI__3B75D760">
+      <End Role="Spot" EntitySet="Spots" />
+      <End Role="BookingEnty" EntitySet="BookingEnties" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,99 @@
+﻿@model Evid.Models.clientVM
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "msg", OnComplete = "clearAll" }))
+{
+    @Html.AntiForgeryToken();
+    @Html.HiddenFor(x => x.ClientId);
+    <div class="row">
+        <div class="col-6">
+            <h2 class="display-4">Add New Client</h2>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.ClientName, htmlAttributes: new { @class = "col-form-label col-2 fs-5" })
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.ClientName, htmlAttributes: new { @class = "form-control fs-5" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.ClientName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.BirthDate, htmlAttributes: new { @class = "col-form-label col-2 fs-5" })
+                <div class="col-8">
+                    @Html.EditorFor(x => x.BirthDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.BirthDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.Age, htmlAttributes: new { @class = "col-form-label col-2 fs-5" })
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.Age, htmlAttributes: new { @class = "form-control fs-5" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.Age, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.PictureFile, htmlAttributes: new { @class = "col-form-label col-2 fs-5" })
+                <div class="col-8">
+                    @*<img src="@Url.Content(Model.Picture)" height="32" width="32"/>*@
+                    @*<img src="@Url.Content(Session["imgPath"].ToString())" height="32" width="32"/>*@
+                    @Html.TextBoxFor(x => x.PictureFile, new { @class = "form-control", type = "file" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.PictureFile, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.MaritalStatus, "Married", htmlAttributes: new { @class = "col-form-label col-2 fs-5" })
+                <div class="col-8">
+                    @Html.CheckBoxFor(x => x.MaritalStatus)
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.MaritalStatus, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <h2 class="display-4">Select Spot</h2>
+            <div class="d-flex justify-content-end mb-2">
+                <a href="#" id="btnPlus" class="btn btn-success" style="margin-right:2px"><i class="fa fa-plus"></i></a>
+            </div>
+            <div id="spotContainer">
+                @foreach (var item in Model.SpotList)
+                {
+                    @Html.Action("AddNewSpot", "Clients", new { id = item });
+                }
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-sm-end mb-2">
+        <input type="submit" value="Update Data" class="btn btn-primary btn-lg" />
+    </div>
+    <div class="row mb-2">
+        <div id="msg">
+
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back To List", "Index", new { }, new { @class = "btn btn-outline-dark justify-content-sm-end mb-2" })
+</div>
+@section scripts
+{
+    <script>
+        $("#form0").attr("enctype", "multipart/form-data")
+        function clearAll() {
+
+            $("#form0").trigger("reset");
+        }
+    </script>

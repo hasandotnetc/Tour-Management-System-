@@ -1,0 +1,118 @@
+﻿@model Evid.Models.clientVM 
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+div class="row">
+<div class="col-12">
+    @using (Ajax.BeginForm(new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "msg", OnComplete = "clearAll" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-6">
+                <h3>Add new Clients</h3>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.ClientName, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                    <div class="col-8">
+                        @Html.TextBoxFor(x => x.ClientName, new { @class = "form-control" })
+                    </div>
+                    <div class="col-2">
+                        @Html.ValidationMessageFor(x => x.ClientName, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.BirthDate, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                    <div class="col-8">
+                        @Html.TextBoxFor(x => x.BirthDate, new { @class = "form-control", type = "date" })
+                    </div>
+                    <div class="col-2">
+                        @Html.ValidationMessageFor(x => x.BirthDate, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.Age, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                    <div class="col-8">
+                        @Html.TextBoxFor(x => x.Age, new { @class = "form-control" })
+                    </div>
+                    <div class="col-2">
+                        @Html.ValidationMessageFor(x => x.Age, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.PictureFile, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                    <div class="col-8">
+                        @Html.TextBoxFor(x => x.PictureFile, new { @class = "form-control", type = "file" })
+                    </div>
+                    <div class="col-2">
+                        @Html.ValidationMessageFor(x => x.PictureFile, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="row mb-2">
+                    @Html.LabelFor(x => x.MaritalStatus, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                    <div class="col-10">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(x => x.MaritalStatus)
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+                        @Html.ValidationMessageFor(x => x.MaritalStatus, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-6">
+                <h3>Select A Spot</h3>
+                <div class="d-flex justify-content-end mb-3">
+                    <a href="#" id="btnPlus" class="btn btn-warning " style="margin-right:2px;"><i class="fa fa-plus"></i>Add</a>
+                </div>
+                <div id="spotContainer">
+                    @Html.Action("AddNewSpot", "Clients")
+                </div>
+
+            </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <input type="submit" value="Save" class="btn btn-primary btn-sm" />
+        </div>
+        <div class="row mb-2">
+            <div id="msg">
+
+            </div>
+        </div>
+
+    }
+</div>
+<div>
+    @Html.ActionLink("Back", "Index", new { }, new { @class = "btn btn-primary" })
+</div>
+@section scripts
+{
+    <script>
+        $("#form0").attr("enctype", "multipart/form-data")
+        function clearAll() {
+
+            $("#form0").trigger("reset");
+        }
+    </script>

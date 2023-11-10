@@ -1,0 +1,98 @@
+﻿@model Evid.Models.clientVM
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+<h3>Are you sure you want to delete this?</h3>
+@using (Html.BeginForm("Delete", "Clients", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.ClientId)
+
+    <div class="row">
+        <div class="col-6">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.ClientName, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.ClientName, new { @class = "form-control" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.ClientName, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.BirthDate, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                <div class="col-8">
+                    @Html.EditorFor(x => x.BirthDate, "{0:yyyy-MM-dd}", new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.BirthDate, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.Age, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.Age, new { @class = "form-control" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.Age, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.Picture, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                <div class="col-8">
+                    @Html.TextBoxFor(x => x.Picture, new { @class = "form-control", type = "file" })
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="row mb-2">
+                @Html.LabelFor(x => x.MaritalStatus, htmlAttributes: new { @class = "col-form-label col-2" })
+
+                <div class="col-8">
+                    @Html.CheckBoxFor(x => x.MaritalStatus)
+                </div>
+                <div class="col-2">
+                    @Html.ValidationMessageFor(x => x.MaritalStatus, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-6">
+            <h3>Select a Spot </h3>
+            <div class="d-flex justify-content-end mb-3">
+                <a href="#" id="btnPlus" class="btn btn-primary" style="margin-right:2px;"><i class="fa fa-plus"></i></a>
+            </div>
+            <div id="spotContainer">
+                @foreach (var item in Model.SpotList)
+                {
+                    @Html.Action("AddNewSpot", "Clients", new { id = item })
+                }
+            </div>
+        </div>
+        <div class="d-flex justify-content-end">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    </div>
+
+    <div>
+        @Html.ActionLink("BacktoList", "Index", new { }, new { @class = "btn btn-primary" })
+    </div>
+}

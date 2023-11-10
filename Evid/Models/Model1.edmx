@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EvModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BookingEnty">
+          <Key>
+            <PropertyRef Name="BookingEntryId" />
+          </Key>
+          <Property Name="BookingEntryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpotId" Type="int" />
+          <Property Name="ClientId" Type="int" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientId" />
+          </Key>
+          <Property Name="ClientId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Age" Type="int" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="Picture" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MaritalStatus" Type="bit" />
+        </EntityType>
+        <EntityType Name="Spot">
+          <Key>
+            <PropertyRef Name="SpotId" />
+          </Key>
+          <Property Name="SpotId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpotName" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__BookingEn__Clien__3C69FB99">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="BookingEnty" Type="Self.BookingEnty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientId" />
+            </Principal>
+            <Dependent Role="BookingEnty">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BookingEn__SpotI__3B75D760">
+          <End Role="Spot" Type="Self.Spot" Multiplicity="0..1" />
+          <End Role="BookingEnty" Type="Self.BookingEnty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spot">
+              <PropertyRef Name="SpotId" />
+            </Principal>
+            <Dependent Role="BookingEnty">
+              <PropertyRef Name="SpotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EvModelStoreContainer">
+          <EntitySet Name="BookingEnty" EntityType="Self.BookingEnty" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Spot" EntityType="Self.Spot" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BookingEn__Clien__3C69FB99" Association="Self.FK__BookingEn__Clien__3C69FB99">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="BookingEnty" EntitySet="BookingEnty" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingEn__SpotI__3B75D760" Association="Self.FK__BookingEn__SpotI__3B75D760">
+            <End Role="Spot" EntitySet="Spot" />
+            <End Role="BookingEnty" EntitySet="BookingEnty" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EvModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BookingEnty">
+          <Key>
+            <PropertyRef Name="BookingEntryId" />
+          </Key>
+          <Property Name="BookingEntryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpotId" Type="Int32" />
+          <Property Name="ClientId" Type="Int32" />
+          <NavigationProperty Name="Client" Relationship="Self.FK__BookingEn__Clien__3C69FB99" FromRole="BookingEnty" ToRole="Client" />
+          <NavigationProperty Name="Spot" Relationship="Self.FK__BookingEn__SpotI__3B75D760" FromRole="BookingEnty" ToRole="Spot" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="ClientId" />
+          </Key>
+          <Property Name="ClientId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaritalStatus" Type="Boolean" />
+          <NavigationProperty Name="BookingEnties" Relationship="Self.FK__BookingEn__Clien__3C69FB99" FromRole="Client" ToRole="BookingEnty" />
+        </EntityType>
+        <EntityType Name="Spot">
+          <Key>
+            <PropertyRef Name="SpotId" />
+          </Key>
+          <Property Name="SpotId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpotName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BookingEnties" Relationship="Self.FK__BookingEn__SpotI__3B75D760" FromRole="Spot" ToRole="BookingEnty" />
+        </EntityType>
+        <Association Name="FK__BookingEn__Clien__3C69FB99">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="BookingEnty" Type="Self.BookingEnty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="ClientId" />
+            </Principal>
+            <Dependent Role="BookingEnty">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BookingEn__SpotI__3B75D760">
+          <End Role="Spot" Type="Self.Spot" Multiplicity="0..1" />
+          <End Role="BookingEnty" Type="Self.BookingEnty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Spot">
+              <PropertyRef Name="SpotId" />
+            </Principal>
+            <Dependent Role="BookingEnty">
+              <PropertyRef Name="SpotId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EvEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BookingEnties" EntityType="Self.BookingEnty" />
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Spots" EntityType="Self.Spot" />
+          <AssociationSet Name="FK__BookingEn__Clien__3C69FB99" Association="Self.FK__BookingEn__Clien__3C69FB99">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="BookingEnty" EntitySet="BookingEnties" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingEn__SpotI__3B75D760" Association="Self.FK__BookingEn__SpotI__3B75D760">
+            <End Role="Spot" EntitySet="Spots" />
+            <End Role="BookingEnty" EntitySet="BookingEnties" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EvModelStoreContainer" CdmEntityContainer="EvEntities">
+          <EntitySetMapping Name="BookingEnties">
+            <EntityTypeMapping TypeName="EvModel.BookingEnty">
+              <MappingFragment StoreEntitySet="BookingEnty">
+                <ScalarProperty Name="BookingEntryId" ColumnName="BookingEntryId" />
+                <ScalarProperty Name="SpotId" ColumnName="SpotId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="EvModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="MaritalStatus" ColumnName="MaritalStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Spots">
+            <EntityTypeMapping TypeName="EvModel.Spot">
+              <MappingFragment StoreEntitySet="Spot">
+                <ScalarProperty Name="SpotId" ColumnName="SpotId" />
+                <ScalarProperty Name="SpotName" ColumnName="SpotName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
